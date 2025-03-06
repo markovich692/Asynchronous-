@@ -15,4 +15,10 @@ const request = new XMLHttpRequest();
 request.open('GET', 'https://restcountries.com/v2/name/Portugal');
 request.send();
 
-console.log(request.responseText);
+// console.log(request.responseText);
+
+request.addEventListener('load', function () {
+  console.log(this);
+  const data = JSON.parse(this.responseText);
+  console.log(data);
+});
