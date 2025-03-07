@@ -111,7 +111,7 @@ const renderCountry = function (data, className = '') {
 // console.log(request);
 
 const getCountryData = function (country) {
-  //Assuming the rresponse is fulfilled
+  //Assuming the response is fulfilled
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(function (response) {
       // console.log(response.json());
@@ -119,7 +119,18 @@ const getCountryData = function (country) {
     })
     .then(function (data) {
       const [data1] = data;
+
+      //Gets the border country from the data1
+      const border = data1.borders[0];
       renderCountry(data1);
+
+      fetch(`https://restcountries.com/v2/alpha/${border}`)
+        .then(function (response1) {
+          return response1.json();
+        })
+        .then(function (data2) {
+          renderCountry(data2, 'neighbour');
+        });
     });
 };
 
