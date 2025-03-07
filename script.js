@@ -73,7 +73,7 @@ const getCountryDataAndBorder = function (country) {
     //Render country 1
     renderCountry(data);
 
-    //Get nieghbor Country 2
+    //Get neighbor Country 2
     const neighbor = data?.borders[0];
 
     //AJAX call 2
@@ -84,6 +84,24 @@ const getCountryDataAndBorder = function (country) {
     request2.addEventListener('load', function () {
       const data2 = JSON.parse(this.responseText);
       renderCountry(data2);
+
+      //country 3
+      const spainNeighbor = data2?.borders[1];
+
+      const request3 = new XMLHttpRequest();
+      request3.open(
+        'GET',
+        `https://restcountries.com/v2/alpha/${spainNeighbor}`
+      );
+      request3.send();
+
+      request3.addEventListener('load', function () {
+        const data3 = JSON.parse(this.responseText);
+
+        console.log(data3);
+
+        renderCountry(data3);
+      });
     });
   });
 };
