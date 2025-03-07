@@ -41,9 +41,9 @@ const countriesContainer = document.querySelector('.countries');
 // getCountryData('cameroon');
 // getCountryData('Kazakhstan');
 
-const renderCountry = function (data) {
+const renderCountry = function (data, className = '') {
   const html = `
-    <article class="country">
+    <article class= "country ${className}">
       <img class="country__img" src="${data.flag}" />
       <div class="country__data">
         <h3 class="country__name">${data.name}</h3>
@@ -83,7 +83,7 @@ const getCountryDataAndBorder = function (country) {
 
     request2.addEventListener('load', function () {
       const data2 = JSON.parse(this.responseText);
-      renderCountry(data2);
+      renderCountry(data2, 'neighbour');
 
       //country 3
       const spainNeighbor = data2?.borders[1];
@@ -98,9 +98,8 @@ const getCountryDataAndBorder = function (country) {
       request3.addEventListener('load', function () {
         const data3 = JSON.parse(this.responseText);
 
-        console.log(data3);
-
-        renderCountry(data3);
+        //Render neighbor3
+        renderCountry(data3, 'neighbour');
       });
     });
   });
