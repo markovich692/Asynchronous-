@@ -113,18 +113,15 @@ const renderCountry = function (data, className = '') {
 const getCountryData = function (country) {
   //Assuming the response is fulfilled
   fetch(`https://restcountries.com/v2/name/${country}`)
-    .then(function (response) {
-      // console.log(response.json());
-      return response.json();
-    })
-    .then(function (data) {
+    .then(response => response.json())
+    .then(data => {
       const [data1] = data;
 
-      //Gets the border country from the data1
-      const border = data1.borders[0];
+      //Gets the neighbor country from the data1
+      const neighbor = data1.borders?.[0];
       renderCountry(data1);
 
-      fetch(`https://restcountries.com/v2/alpha/${border}`)
+      fetch(`https://restcountries.com/v2/alpha/${neighbor}`)
         .then(function (response1) {
           return response1.json();
         })
