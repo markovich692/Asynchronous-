@@ -109,3 +109,12 @@ const countriesContainer = document.querySelector('.countries');
 
 const request = fetch('https://restcountries.com/v2/name/portugal');
 console.log(request);
+
+const getCountryData = function (country) {
+  //Assuming the rresponse is fulfilled
+  fetch(`https://restcountries.com/v2/name/${country}`).then(function (
+    response
+  ) {
+    console.log(response);
+  });
+};
