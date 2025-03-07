@@ -115,6 +115,8 @@ const getCountryData = function (country) {
   fetch(`https://restcountries.com/v2/name/${country}`).then(function (
     response
   ) {
-    console.log(response);
+    return response.json();
   });
 };
+
+getCountryData(portugal);
