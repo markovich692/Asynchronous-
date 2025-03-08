@@ -115,11 +115,8 @@ const getCountryData = function (country) {
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(
       response => response.json(),
-      function (data) {
-        alert(data);
-      }
+      error => alert(error)
     )
-
     .then(data => {
       const [data1] = data;
 
@@ -127,7 +124,9 @@ const getCountryData = function (country) {
       const neighbor = data1.borders?.[0];
       renderCountry(data1);
 
-      return fetch(`https://restcountries.com/v2/alpha/${neighbor}`);
+      return fetch(`https://restcountries.com/v2/alpha/${neighbor}`, error =>
+        alert(error)
+      );
     })
     .then(function (response1) {
       return response1.json();
