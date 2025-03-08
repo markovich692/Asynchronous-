@@ -113,7 +113,13 @@ const renderCountry = function (data, className = '') {
 const getCountryData = function (country) {
   //Assuming the response is fulfilled
   fetch(`https://restcountries.com/v2/name/${country}`)
-    .then(response => response.json())
+    .then(
+      response => response.json(),
+      function (data) {
+        alert(data);
+      }
+    )
+
     .then(data => {
       const [data1] = data;
 
@@ -121,14 +127,16 @@ const getCountryData = function (country) {
       const neighbor = data1.borders?.[0];
       renderCountry(data1);
 
-      fetch(`https://restcountries.com/v2/alpha/${neighbor}`)
-        .then(function (response1) {
-          return response1.json();
-        })
-        .then(function (data2) {
-          renderCountry(data2, 'neighbour');
-        });
+      return fetch(`https://restcountries.com/v2/alpha/${neighbor}`);
+    })
+    .then(function (response1) {
+      return response1.json();
+    })
+    .then(function (data2) {
+      renderCountry(data2, 'neighbour');
     });
 };
 
-getCountryData('portugal');
+btn.addEventListener('click', function () {
+  getCountryData('portugal');
+});
