@@ -32,7 +32,6 @@ const getCountryDataAndBorder = function (country) {
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(response => {
       if (!response.ok) throw new Error(`Country not found ${response.status}`);
-
       return response.json();
     })
     .then(data => {
@@ -44,18 +43,56 @@ const getCountryDataAndBorder = function (country) {
 
       return fetch(`https://restcountries.com/v2/alpha/${border}`);
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(`Country not found ${response.status}`);
+      return response.json();
+    })
     .then(data2 => {
       console.log(data2);
       renderCountry(data2, 'neighbour');
     })
-    .catch(error => renderError(`Something went wrong ${error} Try again`))
+    .catch(error =>
+      renderError(`Something went wrong ${error.message} Try again`)
+    )
     .finally(() => (countriesContainer.style.opacity = 1));
 };
 
 btn.addEventListener('click', function () {
   getCountryDataAndBorder('portugal');
 });
+
+// const getCountryDataAndBorder = function (country) {
+//   fetch(`https://restcountries.com/v2/name/${country}`)
+//     .then(response => {
+//       if (!response.ok) throw new Error(`Country not found ${response.status}`);
+//       return response.json();
+//     })
+//     .then(data => {
+//       const [data1] = data;
+
+//       const border = data1.borders?.[0];
+
+//       renderCountry(data1);
+
+//       return fetch(`https://restcountries.com/v2/alpha/${border}`);
+//     })
+//     .then(response => {
+//       if (!response.ok) throw new Error(`Country not found ${response.status}`);
+//       return response.json();
+//     })
+//     .then(data2 => {
+//       console.log(data2);
+//       renderCountry(data2, 'neighbour');
+//     })
+//     .catch(error =>
+//       renderError(`Something went wrong ${error.message} Try again`)
+//     )
+//     .finally(() => (countriesContainer.style.opacity = 1));
+// };
+
+// btn.addEventListener('click', function () {
+//   getCountryDataAndBorder('portugal');
+// });
 
 // NEW COUNTRIES API URL (use instead of the URL shown in videos):
 // https://restcountries.com/v2/name/portugal
