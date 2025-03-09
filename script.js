@@ -5,55 +5,56 @@ const countriesContainer = document.querySelector('.countries');
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
-  //   countriesContainer.style.opacity = 1;
+
+  countriesContainer.style.opacity = 1;
 };
 
 const renderCountry = function (data, className = '') {
   const html = `
-      <article class= "country ${className}">
-        <img class="country__img" src="${data.flag}" />
-        <div class="country__data">
-          <h3 class="country__name">${data.name}</h3>
-          <h4 class="country__region">${data.region}</h4>
-          <p class="country__row"><span>👫</span>${data.population}</p>
-          <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
-          <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
-        </div>
-      </article>
-  `;
+<article class= "country ${className}">
+    <img class="country__img" src="${data.flag}" />
+    <div class="country__data">
+    <h3 class="country__name">${data.name}</h3>
+    <h4 class="country__region">${data.region}</h4>
+    <p class="country__row"><span>👫</span>${data.population}</p>
+    <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+    <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+    </div>
+</article>
+`;
+
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  //   countriesContainer.style.opacity = 1;
+
+  countriesContainer.style.opacity = 1;
 };
 
-const getCountryData = function (country) {
-  //Assuming the response is fulfilled
+const getCountryDataAndBorder = function (country) {
   fetch(`https://restcountries.com/v2/name/${country}`)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(`Country not found ${response.status}`);
+
+      return response.json();
+    })
     .then(data => {
       const [data1] = data;
 
-      //Gets the neighbor country from the data1
-      const neighbor = data1.borders?.[0];
+      const border = data1.borders?.[0];
+
       renderCountry(data1);
 
-      return fetch(`https://restcountries.com/v2/alpha/${neighbor}`);
+      return fetch(`https://restcountries.com/v2/alpha/${border}`);
     })
-    .then(function (response1) {
-      return response1.json();
-    })
-    .then(function (data2) {
+    .then(response => response.json())
+    .then(data2 => {
+      console.log(data2);
       renderCountry(data2, 'neighbour');
     })
-    .catch(error => {
-      console.error(error);
-
-      renderError(`Something went wrong ${error.message} Try again`);
-    })
-    .finally(() => (countriesContainer.computedStyleMap.opacity = 1));
+    .catch(error => renderError(`Something went wrong ${error} Try again`))
+    .finally(() => (countriesContainer.style.opacity = 1));
 };
 
 btn.addEventListener('click', function () {
-  getCountryData('portugal');
+  getCountryDataAndBorder('portugal');
 });
 
 // NEW COUNTRIES API URL (use instead of the URL shown in videos):
