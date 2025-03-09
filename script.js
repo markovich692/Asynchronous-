@@ -193,12 +193,14 @@ btn.addEventListener('click', function () {
 const whereAmI = function (lat, lng) {
   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
     .then(response => {
-      if (!response.ok) throw new Error('Could not find coordinates');
+      if (!response.ok)
+        throw new Error(`Could not find coordinates ${response.status}`);
       return response.json();
     })
     .then(data => {
       console.log(`You are in ${data.region}, ${data.country}`);
-    });
+    })
+    .catch(error => console.log(`Something went wrong ${error.message} `));
 };
 
 whereAmI(52.508, 13.381);
