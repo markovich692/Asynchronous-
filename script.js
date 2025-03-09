@@ -191,13 +191,18 @@ btn.addEventListener('click', function () {
 // Coding Challenge #1
 
 const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+  fetch(`https://geocode.xyz/${lat},${lng}?json=1`)
     .then(response => {
       if (!response.ok)
-        throw new Error(`Could not find coordinates ${response.status}`);
+        throw new Error(`Cordinates does not exist, ${response.status}`);
       return response.json();
     })
     .then(data => {
+      if (data.region === 'Throttled! See geocode.xyz/pricing')
+        throw new Error(
+          'Could not process request, please wait and try again!'
+        );
+
       console.log(`You are in ${data.region}, ${data.country}`);
     })
     .catch(error => console.log(`Something went wrong ${error.message} `));
