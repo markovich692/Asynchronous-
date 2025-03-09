@@ -186,3 +186,14 @@ btn.addEventListener('click', function () {
 
 // const request = fetch('https://restcountries.com/v2/name/portugal');
 // console.log(request);
+
+//////////////////////////////////////
+// Coding Challenge #1
+
+const whereAmI = function (lat, lng) {
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`).then(response =>
+    response.json()
+  );
+};
+
+whereAmI();
