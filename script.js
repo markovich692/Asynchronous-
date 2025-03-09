@@ -199,13 +199,13 @@ const whereAmI = function (lat, lng) {
     })
     .then(data => {
       if (data.region === 'Throttled! See geocode.xyz/pricing')
-        throw new Error(
-          'Could not process request, please wait and try again!'
-        );
+        throw new Error('could not process request Please wait and try again!');
 
       console.log(`You are in ${data.region}, ${data.country}`);
+
+      getCountryDataAndBorder(data.country);
     })
-    .catch(error => console.log(`Something went wrong ${error.message} `));
+    .catch(error => console.log(`Something went wrong, ${error.message} `));
 };
 
-whereAmI(52.508, 13.381);
+whereAmI(-33.933, 18.474);
