@@ -191,9 +191,10 @@ btn.addEventListener('click', function () {
 // Coding Challenge #1
 
 const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`).then(response =>
-    response.json()
-  );
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`).then(response => {
+    if (!response.ok) throw new Error('Could not find coordinates');
+    return response.json();
+  });
 };
 
-whereAmI();
+whereAmI(52.508, 13.381);
