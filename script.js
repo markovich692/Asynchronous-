@@ -190,22 +190,31 @@ btn.addEventListener('click', function () {
 //////////////////////////////////////
 // Coding Challenge #1
 
-const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?json=1`)
-    .then(response => {
-      if (!response.ok)
-        throw new Error(`Cordinates does not exist, ${response.status}`);
-      return response.json();
-    })
-    .then(data => {
-      if (data.region === 'Throttled! See geocode.xyz/pricing')
-        throw new Error('could not process request Please wait and try again!');
+// const whereAmI = function (lat, lng) {
+//   fetch(`https://geocode.xyz/${lat},${lng}?json=1`)
+//     .then(response => {
+//       if (!response.ok)
+//         throw new Error(`Cordinates does not exist, ${response.status}`);
+//       return response.json();
+//     })
+//     .then(data => {
+//       if (data.region === 'Throttled! See geocode.xyz/pricing')
+//         throw new Error('could not process request Please wait and try again!');
 
-      console.log(`You are in ${data.region}, ${data.country}`);
+//       console.log(`You are in ${data.region}, ${data.country}`);
 
-      getCountryDataAndBorder(data.country);
-    })
-    .catch(error => console.log(`Something went wrong, ${error.message} `));
-};
+//       getCountryDataAndBorder(data.country);
+//     })
 
-whereAmI(-33.933, 18.474);
+//     .catch(error => console.log(`Something went wrong, ${error.message} `));
+// };
+
+// whereAmI(19.037, 72.873);
+
+// EVENT LOOP in practice
+
+console.log(`let's start`);
+
+setTimeout(() => console.log(`0 sec timer`), 0);
+
+Promise.resolve('Resolved promise').then(res => console.log(res));
