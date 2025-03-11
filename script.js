@@ -235,4 +235,6 @@ const promiseLottery = new Promise(function (resolve, reject) {
   }
 });
 
-promiseLottery.then(res => console.log(res));
+promiseLottery
+  .then(res => console.log(res))
+  .catch(error => console.error(error));
