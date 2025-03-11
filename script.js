@@ -213,14 +213,26 @@ btn.addEventListener('click', function () {
 
 // EVENT LOOP in practice
 
-console.log(`let's start`);
+// console.log(`let's start`);
 
-setTimeout(() => console.log(`0 sec timer`), 0);
+// setTimeout(() => console.log(`0 sec timer`), 0);
 
-Promise.resolve('Resolved promise 1').then(res => console.log(res));
+// Promise.resolve('Resolved promise 1').then(res => console.log(res));
 
-Promise.resolve('Resolved promise 2').then(res => {
-  for (let i = 0; i < 1000000000; i++) {}
+// Promise.resolve('Resolved promise 2').then(res => {
+//   for (let i = 0; i < 1000000000; i++) {}
 
-  console.log(res);
+//   console.log(res);
+// });
+
+//Create your own Promise
+
+const promiseLottery = new Promise(function (resolve, reject) {
+  if (Math.random() >= 0.5) {
+    resolve('You WIN!');
+  } else {
+    reject('You lost your MONEY!');
+  }
 });
+
+promiseLottery.then(res => console.log(res));
