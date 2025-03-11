@@ -239,3 +239,12 @@ const promiseLottery = new Promise(function (resolve, reject) {
 promiseLottery
   .then(res => console.log(res))
   .catch(error => console.error(error));
+
+//Promisifying the setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(3).then(() => console.log('I waited 3 seconds.'));
