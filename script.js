@@ -226,13 +226,14 @@ btn.addEventListener('click', function () {
 // });
 
 //Create your own Promise
-
 const promiseLottery = new Promise(function (resolve, reject) {
-  if (Math.random() >= 0.5) {
-    resolve('You WIN!');
-  } else {
-    reject('You lost your MONEY!');
-  }
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('You WIN!');
+    } else {
+      reject(new Error('You lost your MONEY!'));
+    }
+  }, 2000);
 });
 
 promiseLottery
