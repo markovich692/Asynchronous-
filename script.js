@@ -298,12 +298,20 @@ btn.addEventListener('click', function () {
 
 //Coding Challenge #2 (complete the challenge later today)
 
+let img;
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
 // Part 1
 const createImage = function (imgPath) {
   //returns a new Promise
   return new Promise(function (resolve, reject) {
     //create a new 'img' element
-    const img = document.createElement('img');
+    img = document.createElement('img');
     img.src = imgPath;
 
     img.addEventListener('load', function () {
@@ -318,7 +326,9 @@ const createImage = function (imgPath) {
 };
 
 createImage('img/img-1.jpg')
-  .then(response => {
-    console.log(response);
+  .then(img => {
+    console.log('Image 1 loaded');
+    return wait(5);
   })
+  .then(() => (img.style.display = 'none'))
   .catch(error => console.error(error));
