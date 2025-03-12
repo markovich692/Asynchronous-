@@ -330,5 +330,22 @@ createImage('img/img-1.jpg')
     console.log('Image 1 loaded');
     return wait(5);
   })
+  .then(() => {
+    img.style.display = 'none';
+
+    createImage('img/img-2.jpg');
+
+    console.log('Image 2 loaded');
+    return wait(5);
+  })
+  .then(() => {
+    img.style.display = 'none';
+
+    createImage('img/img-3.jpg');
+
+    console.log('Image 3 loaded');
+    return wait(5);
+  })
   .then(() => (img.style.display = 'none'))
+
   .catch(error => console.error(error));
