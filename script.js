@@ -295,3 +295,5 @@ const whereAmI = function () {
 btn.addEventListener('click', function () {
   whereAmI();
 });
+
+//Coding Challenge #2
