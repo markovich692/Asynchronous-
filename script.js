@@ -296,23 +296,27 @@ btn.addEventListener('click', function () {
   whereAmI();
 });
 
-//Coding Challenge #2
+//Coding Challenge #2 (complete the challenge later today)
 
 //Part 1
-const createImage = function (imgPath) {
-  return new Promise(function (resolve, reject) {
-    const img = document.createElement('img');
-    img.src = imgPath;
-    if (img) {
-      resolve(img);
-    } else {
-      reject('Could not fetch image');
-    }
-  });
-};
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const img = document.createElement('img');
+//     img.src = imgPath;
+//     if (img.src) {
+//       resolve(img);
+//     } else {
+//       reject('Could not fetch image Try again');
+//     }
+//   });
+// };
 
-createImage('img/img-2.jpg').then(image => {
-  image.addEventListener('load', function () {
-    document.querySelector('.images').append(image);
-  });
-});
+// createImage('img/img-1.jpg')
+//   .then(image => {
+//     return image.addEventListener('load', function () {
+//       if (!image.src) throw new Error('Could not fetch image Try again');
+
+//       document.querySelector('.images').append(image);
+//     });
+//   })
+//   .catch(error => console.error(error));
