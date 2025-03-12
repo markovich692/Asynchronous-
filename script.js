@@ -226,25 +226,72 @@ btn.addEventListener('click', function () {
 // });
 
 //Create your own Promise
-const promiseLottery = new Promise(function (resolve, reject) {
-  setTimeout(function () {
-    if (Math.random() >= 0.5) {
-      resolve('You WIN!');
-    } else {
-      reject(new Error('You lost your MONEY!'));
-    }
-  }, 2000);
-});
+// const promiseLottery = new Promise(function (resolve, reject) {
+//   setTimeout(function () {
+//     if (Math.random() >= 0.5) {
+//       resolve('You WIN!');
+//     } else {
+//       reject(new Error('You lost your MONEY!'));
+//     }
+//   }, 2000);
+// });
 
-promiseLottery
-  .then(res => console.log(res))
-  .catch(error => console.error(error));
+// promiseLottery
+//   .then(res => console.log(res))
+//   .catch(error => console.error(error));
 
-//Promisifying the setTimeout
-const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000);
+// //Promisifying the setTimeout
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(3).then(() => console.log('I waited 3 seconds.'));
+
+//Promisifying the geolocation API
+
+// navigator.geolocation.getCurrentPosition(
+//   function (position) {
+//     const { latitude, longitude } = position.coords;
+//     console.log(latitude, longitude);
+//   },
+//   function () {
+//     alert('Could not get coordinates');
+//   }
+// );
+
+//GEOLOCATION PROMISIFYING
+const geolocationPromise = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
 
-wait(3).then(() => console.log('I waited 3 seconds.'));
+//Promisifying the whereAmI
+
+const whereAmI = function () {
+  geolocationPromise()
+    .then(response => {
+      const { latitude: lat, longitude: lng } = response.coords;
+      return fetch(`https://geocode.xyz/${lat},${lng}?json=1`);
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Cordinates does not exist, ${response.status}`);
+      return response.json();
+    })
+    .then(data => {
+      if (data.region === 'Throttled! See geocode.xyz/pricing')
+        throw new Error('could not process request Please wait and try again!');
+
+      console.log(`You are in ${data.region}, ${data.country}`);
+
+      getCountryDataAndBorder(data.country);
+    })
+    .catch(error => console.log(`Something went wrong, ${error.message} `));
+};
+
+btn.addEventListener('click', function () {
+  whereAmI();
+});
