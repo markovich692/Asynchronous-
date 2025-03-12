@@ -297,3 +297,22 @@ btn.addEventListener('click', function () {
 });
 
 //Coding Challenge #2
+
+//Part 1
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+    if (img) {
+      resolve(img);
+    } else {
+      reject('Could not fetch image');
+    }
+  });
+};
+
+createImage('img/img-2.jpg').then(image => {
+  image.addEventListener('load', function () {
+    document.querySelector('.images').append(image);
+  });
+});
