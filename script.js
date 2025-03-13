@@ -372,7 +372,7 @@ const whereAmI = async function () {
     );
 
     if (!responseGeocode.ok)
-      throw new Error(`Problem getting country name ${res.status}`);
+      throw new Error(`Problem getting country location ${res.status}`);
 
     const dataGeocode = await responseGeocode.json();
 
@@ -385,9 +385,18 @@ const whereAmI = async function () {
     const data = await res.json();
 
     renderCountry(data[0]);
+
+    return `You are in ${dataGeocode.city}, ${dataGeocode.state} `;
   } catch (error) {
     renderError(`Something went wrong ${error.message}`);
+
+    //Reject Promise returned from ASYNC function
+    throw error;
   }
 };
 
-whereAmI();
+console.log('1: Will get location');
+whereAmI()
+  .then(city => console.log(`2: ${city}`))
+  .catch(error => console.error(`2: ${error.message}`));
+console.log('3: Finished getting location');
