@@ -395,8 +395,18 @@ const whereAmI = async function () {
   }
 };
 
-console.log('1: Will get location');
-whereAmI()
-  .then(city => console.log(`2: ${city}`))
-  .catch(error => console.error(`2: ${error.message}`));
-console.log('3: Finished getting location');
+// console.log('1: Will get location');
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(error => console.error(`2: ${error.message}`))
+//   .finally(() => console.log('3: Finished getting location'));
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`1:${city}`);
+  } catch (error) {
+    console.error(`2: ${error.message}`);
+  }
+  console.log(`3:Finished getting location`);
+})();
