@@ -270,82 +270,94 @@ const geolocationPromise = function () {
 
 //Promisifying the whereAmI
 
-const whereAmI = function () {
-  geolocationPromise()
-    .then(response => {
-      const { latitude: lat, longitude: lng } = response.coords;
-      return fetch(`https://geocode.xyz/${lat},${lng}?json=1`);
-    })
-    .then(response => {
-      if (!response.ok)
-        throw new Error(`Cordinates does not exist, ${response.status}`);
-      return response.json();
-    })
-    .then(data => {
-      if (data.region === 'Throttled! See geocode.xyz/pricing')
-        throw new Error('could not process request Please wait and try again!');
+// const whereAmI = function () {
+//   geolocationPromise()
+//     .then(response => {
+//       const { latitude: lat, longitude: lng } = response.coords;
+//       return fetch(`https://geocode.xyz/${lat},${lng}?json=1`);
+//     })
+//     .then(response => {
+//       if (!response.ok)
+//         throw new Error(`Cordinates does not exist, ${response.status}`);
+//       return response.json();
+//     })
+//     .then(data => {
+//       if (data.region === 'Throttled! See geocode.xyz/pricing')
+//         throw new Error('could not process request Please wait and try again!');
 
-      console.log(`You are in ${data.region}, ${data.country}`);
+//       console.log(`You are in ${data.region}, ${data.country}`);
 
-      getCountryDataAndBorder(data.country);
-    })
-    .catch(error => console.log(`Something went wrong, ${error.message} `));
-};
+//       getCountryDataAndBorder(data.country);
+//     })
+//     .catch(error => console.log(`Something went wrong, ${error.message} `));
+// };
 
-btn.addEventListener('click', function () {
-  whereAmI();
-});
+// btn.addEventListener('click', function () {
+//   whereAmI();
+// });
 
 //Coding Challenge #2 (complete the challenge later today)
 
-let img;
+// let img;
 
-const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000);
-  });
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// // Part 1
+// const createImage = function (imgPath) {
+//   //returns a new Promise
+//   return new Promise(function (resolve, reject) {
+//     //create a new 'img' element
+//     img = document.createElement('img');
+//     img.src = imgPath;
+
+//     img.addEventListener('load', function () {
+//       document.querySelector('.images').append(img);
+//       resolve(img);
+//     });
+
+//     img.addEventListener('error', function () {
+//       reject(new Error('could not get image'));
+//     });
+//   });
+// };
+
+// createImage('img/img-1.jpg')
+//   .then(img => {
+//     console.log('Image 1 loaded');
+//     return wait(5);
+//   })
+//   .then(() => {
+//     img.style.display = 'none';
+
+//     createImage('img/img-2.jpg');
+
+//     console.log('Image 2 loaded');
+//     return wait(5);
+//   })
+//   .then(() => {
+//     img.style.display = 'none';
+
+//     createImage('img/img-3.jpg');
+
+//     console.log('Image 3 loaded');
+//     return wait(5);
+//   })
+//   .then(() => (img.style.display = 'none'))
+
+//   .catch(error => console.error(error));
+
+//ASYNC/AWAIT
+
+const whereYouAre = async function (country) {
+  const res = await fetch(`https://restcountries.com/v2/name/${country}`);
+
+  const data = await res.json();
+
+  renderCountry(data[0]);
 };
 
-// Part 1
-const createImage = function (imgPath) {
-  //returns a new Promise
-  return new Promise(function (resolve, reject) {
-    //create a new 'img' element
-    img = document.createElement('img');
-    img.src = imgPath;
-
-    img.addEventListener('load', function () {
-      document.querySelector('.images').append(img);
-      resolve(img);
-    });
-
-    img.addEventListener('error', function () {
-      reject(new Error('could not get image'));
-    });
-  });
-};
-
-createImage('img/img-1.jpg')
-  .then(img => {
-    console.log('Image 1 loaded');
-    return wait(5);
-  })
-  .then(() => {
-    img.style.display = 'none';
-
-    createImage('img/img-2.jpg');
-
-    console.log('Image 2 loaded');
-    return wait(5);
-  })
-  .then(() => {
-    img.style.display = 'none';
-
-    createImage('img/img-3.jpg');
-
-    console.log('Image 3 loaded');
-    return wait(5);
-  })
-  .then(() => (img.style.display = 'none'))
-
-  .catch(error => console.error(error));
+whereYouAre('portugal');
