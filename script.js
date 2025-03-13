@@ -262,11 +262,11 @@ btn.addEventListener('click', function () {
 // );
 
 //GEOLOCATION PROMISIFYING
-const geolocationPromise = function () {
-  return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
+// const geolocationPromise = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
 
 //Promisifying the whereAmI
 
@@ -352,7 +352,26 @@ const geolocationPromise = function () {
 
 //ASYNC/AWAIT
 
-const whereYouAre = async function (country) {
+//Promisified FUNCTIONS
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  const position = await getPosition();
+
+  const { latitude: lat, longitude: lng } = position.coords;
+
+  const responseGeocode = await fetch(
+    `https://geocode.xyz/${lat},${lng}?json=1`
+  );
+
+  const dataGeocode = await responseGeocode.json();
+
+  const country = await dataGeocode.country;
+
   const res = await fetch(`https://restcountries.com/v2/name/${country}`);
 
   const data = await res.json();
@@ -360,4 +379,4 @@ const whereYouAre = async function (country) {
   renderCountry(data[0]);
 };
 
-whereYouAre('portugal');
+whereAmI();
