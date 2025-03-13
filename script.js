@@ -360,23 +360,34 @@ const getPosition = function () {
 };
 
 const whereAmI = async function () {
-  const position = await getPosition();
+  try {
+    //Geolocation
+    const position = await getPosition();
 
-  const { latitude: lat, longitude: lng } = position.coords;
+    const { latitude: lat, longitude: lng } = position.coords;
 
-  const responseGeocode = await fetch(
-    `https://geocode.xyz/${lat},${lng}?json=1`
-  );
+    //Reverse Geocoding
+    const responseGeocode = await fetch(
+      `https://geocode.xyz/${lat},${lng}?json=1`
+    );
 
-  const dataGeocode = await responseGeocode.json();
+    if (!responseGeocode.ok)
+      throw new Error(`Problem getting country name ${res.status}`);
 
-  const country = await dataGeocode.country;
+    const dataGeocode = await responseGeocode.json();
 
-  const res = await fetch(`https://restcountries.com/v2/name/${country}`);
+    const country = await dataGeocode.country;
 
-  const data = await res.json();
+    const res = await fetch(`https://restcountries.com/v2/name/${country}`);
 
-  renderCountry(data[0]);
+    if (!res.ok) throw new Error(`Problem getting country name ${res.status}`);
+
+    const data = await res.json();
+
+    renderCountry(data[0]);
+  } catch (error) {
+    renderError(`Something went wrong ${error.message}`);
+  }
 };
 
 whereAmI();
