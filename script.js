@@ -372,7 +372,9 @@ const whereAmI = async function () {
     );
 
     if (!responseGeocode.ok)
-      throw new Error(`Problem getting country location ${res.status}`);
+      throw new Error(
+        `Problem getting country location ${responseGeocode.status}`
+      );
 
     const dataGeocode = await responseGeocode.json();
 
@@ -401,12 +403,37 @@ const whereAmI = async function () {
 //   .catch(error => console.error(`2: ${error.message}`))
 //   .finally(() => console.log('3: Finished getting location'));
 
-(async function () {
+// (async function () {
+//   try {
+//     const city = await whereAmI();
+//     console.log(`1:${city}`);
+//   } catch (error) {
+//     console.error(`2: ${error.message}`);
+//   }
+//   console.log(`3:Finished getting location`);
+// })();
+
+const get3Countries = async function (c1, c2, c3) {
   try {
-    const city = await whereAmI();
-    console.log(`1:${city}`);
+    let arr = [];
+
+    const datas = await Promise.all([
+      getJSON(`https://restcountries.com/v2/name/${c1}`),
+      getJSON(`https://restcountries.com/v2/name/${c2}`),
+      getJSON(`https://restcountries.com/v2/name/${c3}`),
+    ]);
+
+    datas.forEach(function (data) {
+      const [city] = data;
+
+      console.log(city.capital);
+
+      arr.push(city.capital);
+    });
+    console.log(arr);
   } catch (error) {
-    console.error(`2: ${error.message}`);
+    console.error(error);
   }
-  console.log(`3:Finished getting location`);
-})();
+};
+
+get3Countries('portugal', 'benin', 'canada');
