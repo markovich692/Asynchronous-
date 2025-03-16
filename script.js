@@ -508,6 +508,7 @@ const createImage = function (imgPath) {
 
 //Challenge 3
 
+//PART 1
 const loadNPause = async function (imgPath) {
   try {
     img = await createImage(imgPath);
@@ -531,4 +532,17 @@ const loadNPause = async function (imgPath) {
   }
 };
 
-loadNPause('img/img-1.jpg');
+// loadNPause('img/img-1.jpg');
+
+//PART 2
+let imgs;
+
+const loadAll = function (imgArr) {
+  const imgs = imgArr.map(function (path) {
+    return createImage(path);
+  });
+
+  console.log(imgs);
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg']);
