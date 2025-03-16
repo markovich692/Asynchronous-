@@ -424,11 +424,8 @@ const get3Countries = async function (c1, c2, c3) {
     ]);
 
     datas.forEach(function (data) {
-      const [city] = data;
-
-      console.log(city.capital);
-
-      arr.push(city.capital);
+      const [country] = data;
+      arr.push(country.capital);
     });
     console.log(arr);
   } catch (error) {
@@ -437,3 +434,14 @@ const get3Countries = async function (c1, c2, c3) {
 };
 
 get3Countries('portugal', 'benin', 'canada');
+
+//Promise.race
+(async function () {
+  const res = await Promise.race([
+    getJSON(`https://restcountries.com/v2/name/portugal`),
+    getJSON(`https://restcountries.com/v2/name/france`),
+    getJSON(`https://restcountries.com/v2/name/mexico`),
+  ]);
+
+  console.log(res);
+})();
