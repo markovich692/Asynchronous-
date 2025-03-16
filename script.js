@@ -469,19 +469,19 @@ const wait = function (seconds) {
   });
 };
 
-let img;
+// let curImg;
 
 const createImage = function (imgPath) {
   return new Promise(function (resolve, reject) {
-    img = document.createElement('img');
-    img.src = imgPath;
+    const curImg = document.createElement('img');
+    curImg.src = imgPath;
 
-    img.addEventListener('load', function () {
-      document.querySelector('.images').append(img);
-      resolve(img);
+    curImg.addEventListener('load', function () {
+      document.querySelector('.images').append(curImg);
+      resolve(curImg);
     });
 
-    img.addEventListener('error', function () {
+    curImg.addEventListener('error', function () {
       reject(new Error('Error loading image'));
     });
   });
@@ -509,40 +509,45 @@ const createImage = function (imgPath) {
 //Challenge 3
 
 //PART 1
-const loadNPause = async function (imgPath) {
+// const loadNPause = async function (imgPath) {
+//   try {
+//     img = await createImage(imgPath);
+//     img;
+
+//     wait(5)
+//       .then(function () {
+//         img.style.display = 'none';
+
+//         return createImage('img/img-2.jpg');
+//       })
+//       .then(function (img) {
+//         img;
+//         return wait(5);
+//       })
+//       .then(function () {
+//         img.style.display = 'none';
+//       });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+// loadNPause('img/img-1.jpg');
+
+// PART 2
+const loadAll = async function (imgArr) {
   try {
-    img = await createImage(imgPath);
-    img;
+    // const imgs1 = imgArr.map(async img => await createImage(img));
+    const imgs = imgArr.map(img => createImage(img));
 
-    wait(5)
-      .then(function () {
-        img.style.display = 'none';
+    const imgsEl = await Promise.all(imgs);
 
-        return createImage('img/img-2.jpg');
-      })
-      .then(function (img) {
-        img;
-        return wait(5);
-      })
-      .then(function () {
-        img.style.display = 'none';
-      });
+    imgsEl.forEach(function (image) {
+      image.classList.add('parallel');
+    });
   } catch (error) {
     console.error(error);
   }
 };
 
-// loadNPause('img/img-1.jpg');
-
-//PART 2
-let imgs;
-
-const loadAll = function (imgArr) {
-  const imgs = imgArr.map(function (path) {
-    return createImage(path);
-  });
-
-  console.log(imgs);
-};
-
-loadAll(['img/img-1.jpg', 'img/img-2.jpg']);
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
