@@ -433,15 +433,23 @@ const get3Countries = async function (c1, c2, c3) {
   }
 };
 
-get3Countries('portugal', 'benin', 'canada');
+// get3Countries('portugal', 'benin', 'canada');
 
 //Promise.race
 (async function () {
   const res = await Promise.race([
     getJSON(`https://restcountries.com/v2/name/portugal`),
-    getJSON(`https://restcountries.com/v2/name/france`),
+    getJSON(`https://restcountries.com/v2/name/franceeede`),
     getJSON(`https://restcountries.com/v2/name/mexico`),
   ]);
 
-  console.log(res);
+  console.log(res[0]);
 })();
+
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request too long'));
+    }, sec);
+  });
+};
