@@ -461,7 +461,7 @@ const timeout = function (sec) {
 //   .then(res => console.log(res))
 //   .catch(error => console.error(error));
 
-//Challenge 3
+//Challenge 2
 
 const wait = function (seconds) {
   return new Promise(function (resolve) {
@@ -487,21 +487,48 @@ const createImage = function (imgPath) {
   });
 };
 
-createImage('img/img-1.jpg')
-  .then(function (img) {
-    img;
-    return wait(5);
-  })
-  .then(function () {
-    img.style.display = 'none';
+// createImage('img/img-1.jpg')
+//   .then(function (img) {
+//     img;
+//     return wait(5);
+//   })
+//   .then(function () {
+//     img.style.display = 'none';
 
-    return createImage('img/img-2.jpg');
-  })
-  .then(function (img) {
+//     return createImage('img/img-2.jpg');
+//   })
+//   .then(function (img) {
+//     img;
+//     return wait(5);
+//   })
+//   .then(function () {
+//     img.style.display = 'none';
+//   })
+//   .catch(error => console.error(error));
+
+//Challenge 3
+
+const loadNPause = async function (imgPath) {
+  try {
+    img = await createImage(imgPath);
     img;
-    return wait(5);
-  })
-  .then(function () {
-    img.style.display = 'none';
-  })
-  .catch(error => console.error(error));
+
+    wait(5)
+      .then(function () {
+        img.style.display = 'none';
+
+        return createImage('img/img-2.jpg');
+      })
+      .then(function (img) {
+        img;
+        return wait(5);
+      })
+      .then(function () {
+        img.style.display = 'none';
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+loadNPause('img/img-1.jpg');
