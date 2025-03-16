@@ -439,17 +439,69 @@ const get3Countries = async function (c1, c2, c3) {
 (async function () {
   const res = await Promise.race([
     getJSON(`https://restcountries.com/v2/name/portugal`),
-    getJSON(`https://restcountries.com/v2/name/franceeede`),
+    getJSON(`https://restcountries.com/v2/name/france`),
     getJSON(`https://restcountries.com/v2/name/mexico`),
   ]);
 
-  console.log(res[0]);
+  // console.log(res[0]);
 })();
 
 const timeout = function (sec) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
-      reject(new Error('Request too long'));
+      reject(new Error('Request took too long'));
     }, sec);
   });
 };
+
+// Promise.race([
+//   getJSON(`https://restcountries.com/v2/name/portugal`),
+//   timeout(1),
+// ])
+//   .then(res => console.log(res))
+//   .catch(error => console.error(error));
+
+//Challenge 3
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+let img;
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      document.querySelector('.images').append(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Error loading image'));
+    });
+  });
+};
+
+createImage('img/img-1.jpg')
+  .then(function (img) {
+    img;
+    return wait(5);
+  })
+  .then(function () {
+    img.style.display = 'none';
+
+    return createImage('img/img-2.jpg');
+  })
+  .then(function (img) {
+    img;
+    return wait(5);
+  })
+  .then(function () {
+    img.style.display = 'none';
+  })
+  .catch(error => console.error(error));
