@@ -551,3 +551,18 @@ const loadAll = async function (imgArr) {
 };
 
 loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
+
+const updatedTime = setInterval(function () {
+  const curDate = new Date();
+  let dateFormatted = new Intl.DateTimeFormat(navigator.language, {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(curDate);
+
+  console.log(dateFormatted);
+
+  setTimeout(() => {
+    clearInterval(updatedTime);
+  }, 5000);
+}, 1000);
